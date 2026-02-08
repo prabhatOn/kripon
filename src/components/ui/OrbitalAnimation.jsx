@@ -7,7 +7,7 @@ const OrbitalAnimation = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     
@@ -54,10 +54,10 @@ const OrbitalAnimation = () => {
       drawDot(angle3, 60, 20);
       drawDot(angle4, 90, 30);
       
-      angle1 += 0.01;
-      angle2 += 0.015;
-      angle3 += 0.02;
-      angle4 += 0.012;
+      angle1 += 0.008;
+      angle2 += 0.012;
+      angle3 += 0.016;
+      angle4 += 0.01;
       
       requestAnimationFrame(animate);
     };

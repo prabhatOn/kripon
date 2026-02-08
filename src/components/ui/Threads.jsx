@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { Renderer, Program, Mesh, Triangle, Color } from 'ogl';
 
 import './Threads.css';
@@ -25,9 +25,9 @@ uniform vec2 uMouse;
 
 #define PI 3.1415926538
 
-const int u_line_count = 40;
-const float u_line_width = 7.0;
-const float u_line_blur = 10.0;
+const int u_line_count = 25;
+const float u_line_width = 6.0;
+const float u_line_blur = 8.0;
 
 float Perlin2D(vec2 P) {
     vec2 Pi = floor(P);
@@ -124,7 +124,7 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
   const containerRef = useRef(null);
   const animationFrameId = useRef();
 
-  useEffect(() => {
+  const initThreads = useCallback(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;
 
@@ -209,9 +209,31 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
       if (container.contains(gl.canvas)) container.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  }, [color, amplitude, distance, enableMouseInteraction]);
+  };
 
   return <div ref={containerRef} className="threads-container" {...rest} />;
 };
 
 export default Threads;
+, [color, amplitude, distance, enableMouseInteraction]);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    // Lazy initialization - only start when in viewport
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initThreads();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => observer.disconnect();
+  }, [initThreads])

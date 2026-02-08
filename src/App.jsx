@@ -6,8 +6,10 @@ import AboutPage from './pages/AboutPage'
 import ServicePage from './pages/ServicePage'
 import ProjectPage from './pages/ProjectPage'
 import ContactPage from './pages/ContactPage'
+import { useSmoothScroll } from './hooks/useSmoothScroll'
 
 function App() {
+  useSmoothScroll();
 
   return (
     <>

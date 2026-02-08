@@ -15,7 +15,6 @@ import Footer from '../components/layout/Footer'
 import CustomCursor from '../components/ui/CustomCursor'
 import HeroVideo from '../assets/heroVideo.mp4'
 import ProjectsList from '../components/ui/ProjectsList'
-import Lightfall from '../components/ui/Lightfall'
 import Threads from '../components/ui/Threads'
 import OrbitalAnimation from '../components/ui/OrbitalAnimation'
 
@@ -143,11 +142,12 @@ function HomePage() {
     useGSAP(() => {
 
         gsap.from('.hero-text', {
-            y: 100,
+            y: 80,
             opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: 'power3.out'
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power2.out',
+            force3D: true
         })
 
 
@@ -155,13 +155,17 @@ function HomePage() {
             gsap.from(section, {
                 scrollTrigger: {
                     trigger: section,
-                    start: 'top 80%',
-                    toggleActions: 'play none none reverse'
+                    start: 'top 85%',
+                    end: 'top 20%',
+                    toggleActions: 'play none none reverse',
+                    fastScrollEnd: true,
+                    preventOverlaps: true
                 },
-                y: 50,
+                y: 40,
                 opacity: 0,
-                duration: 1,
-                ease: 'power3.out'
+                duration: 0.8,
+                ease: 'power2.out',
+                force3D: true
             })
         })
 
