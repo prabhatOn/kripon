@@ -209,13 +209,7 @@ const Threads = ({ color = [1, 1, 1], amplitude = 1, distance = 0, enableMouseIn
       if (container.contains(gl.canvas)) container.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
-  };
-
-  return <div ref={containerRef} className="threads-container" {...rest} />;
-};
-
-export default Threads;
-, [color, amplitude, distance, enableMouseInteraction]);
+  }, [color, amplitude, distance, enableMouseInteraction]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -236,4 +230,9 @@ export default Threads;
     observer.observe(containerRef.current);
 
     return () => observer.disconnect();
-  }, [initThreads])
+  }, [initThreads]);
+
+  return <div ref={containerRef} className="threads-container" {...rest} />;
+};
+
+export default Threads;
